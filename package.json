@@ -1,0 +1,26 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "Simple Todo App on Vanilla JS and uses Web Storage API (localStorage)",
+  "author": "Mr. Rotberry",
+  "email": "mr.rotberry@gmail.com",
+  "main": "index.js",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.1.0",
+    "gulp-connect": "^5.2.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.3"
+  },
+  "scripts": {
+    "gulp": "gulp default",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mr.rotberry",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrrotberry/portfolio.git"
+  },
+  "license": "ISC"
+}
