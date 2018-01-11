@@ -142,6 +142,9 @@ $danger: #bb3e3e;
       color: #fff;
       opacity: 0;
       transition: 0.4s;
+      &:focus{
+        outline: none;
+      }
       &__done{
         background-color: $accept;
         &:hover{
