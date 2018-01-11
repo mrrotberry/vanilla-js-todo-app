@@ -1,3 +1,7 @@
+$accept: #3ebb77;
+$primary: #3e66bb;
+$danger: #bb3e3e;
+
 .task{
   &-error{
     margin-bottom: 10px;
@@ -12,7 +16,7 @@
       position: relative;
       padding: 3px 8px;
       border-radius: 4px;
-      background-color: #bb3e3e;
+      background-color: $danger;
       font-size: 16px;
       color: #fff;
       user-select: none;
@@ -23,7 +27,7 @@
         left: 50%;
         transform: translateX(-50%);
         border: 10px solid transparent;
-        border-top: 10px solid #bb3e3e;
+        border-top: 10px solid $danger;
       }
     }
   }
@@ -40,17 +44,17 @@
     &:focus{
       outline: none;
       border-color: #bbd4e1;
-      box-shadow: 1px 1px 4px #bbd4e1;
+      box-shadow: 1px 1px 4px lighten($primary, 20%);
     }
   }
   &-add-btn{
     display: inline-block;
     padding: 13px 30px 13px;
-    border: solid #326E99;
+    border: solid lighten($primary, 3%);
     border-width: 0px 0px 3px;
     border-radius: 6px;
     box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
-    background-color: #3F8ABF;
+    background-color: lighten($primary, 10%);
     line-height: 1;
     font-size: 18px;
     font-weight: 700;
@@ -58,12 +62,12 @@
     transition: all 200ms ease-in-out 0s;
     &:hover,
     &:active{
-      background-color: #397CAC;
-      border-color: #326E99;
+      background-color: lighten($primary, 12%);
+      border-color: lighten($primary, 3%);
     }
     &:focus{
       outline: none;
-      border-color: #326E99;
+      border-color: lighten($primary, 3%);
       background-color: #3F8ABF;
     }
   }
@@ -80,7 +84,7 @@
     font-size: 22px;
     transition: 0.4s;
     &:hover{
-      border-color: #3F8ABF;
+      border-color: lighten($primary, 3%);
     }
     &:hover &_btn {
       opacity: 1;
@@ -97,18 +101,18 @@
       }
     }
     &__done{
-      border-color: #3ebb77;
+      border-color: $accept;
       text-decoration: line-through;
       &:hover{
-        border-color: #3ebb77;
+        border-color: $accept;
       }
     }
     &__edit{
       display: block;
       padding: 7px 16px;
-      border-color: #3e66bb;
+      border-color: $primary;
       &:hover {
-        border-color: #3e66bb;
+        border-color: $primary;
       }
     }
     &-input{
@@ -139,13 +143,22 @@
       opacity: 0;
       transition: 0.4s;
       &__done{
-        background-color: #3ebb77;
+        background-color: $accept;
+        &:hover{
+          background-color: darken($accept, 10%);
+        }
       }
       &__edit{
-        background-color: #3e66bb;
+        background-color: $primary;
+        &:hover {
+          background-color: darken($primary, 10%);
+        }
       }
       &__delete{
-        background-color: #bb3e3e;
+        background-color: $danger;
+        &:hover {
+          background-color: darken($danger, 10%);
+        }
       }
     }
   }
