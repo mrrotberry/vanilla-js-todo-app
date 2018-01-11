@@ -21,7 +21,7 @@ function renderItem(text) {
 checkEmptyList();
 
 function checkEmptyList() {
-  if (!taskContainer.childNodes.length) {
+  if (taskContainer.querySelectorAll('.task-item').length < 1) {
     taskContainer.innerHTML = emptyItem;
   }
 }
@@ -35,6 +35,7 @@ function addTask() {
     item.setAttribute('data-id', '0');
     item.innerHTML = renderItem(taskText.value);
 
+    /* functional done button */
     const btnDone = item.querySelector('.task-item_btn__done');
     btnDone.addEventListener('click', function () {
       const thisItem = this.parentNode.parentNode;
@@ -55,6 +56,7 @@ function addTask() {
       }
     });
 
+    /* functional edit button */
     const btnEdit = item.querySelector('.task-item_btn__edit');
     btnEdit.addEventListener('click', function () {
       const thisItem = this.parentNode.parentNode;
@@ -80,6 +82,13 @@ function addTask() {
           text = itemInput.value;
         });
 
+        itemInput.addEventListener('keypress', (event) => {
+          if (event.keyCode === 13) {
+            const event = new Event("click", {bubbles : true, cancelable : true})
+            btnEdit.dispatchEvent(event);
+          }
+        });
+
         thisItem.insertBefore(itemInput, thisItem.firstChild);
 
         btnDone.setAttribute('hidden', 'hidden');
@@ -98,6 +107,12 @@ function addTask() {
       }
     });
 
+    const btnDelete = item.querySelector('.task-item_btn__delete');
+    btnDelete.addEventListener('click', function () {
+      item.remove();
+      checkEmptyList();
+    });
+
     taskContainer.appendChild(item);
 
     taskText.value = '';
@@ -113,6 +128,13 @@ function addTask() {
 taskText.addEventListener('input', () => {
   if (taskError.classList.contains('show')) {
     taskError.classList.remove('show');
+  }
+});
+
+taskText.addEventListener('keypress', (event) => {
+  if (event.keyCode === 13) {
+    const event = new Event("click", {bubbles : true, cancelable : true})
+    taskAddBtn.dispatchEvent(event);
   }
 });
 
