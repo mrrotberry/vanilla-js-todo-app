@@ -96,20 +96,22 @@ function addTask() {
 
         const itemInput = document.createElement('input');
         itemInput.classList.add('task-item-input');
-        itemInput.value = text;
+        itemInput.value = window.text;
 
         itemInput.addEventListener('change', function () {
-          text = itemInput.value;
+          window.text = itemInput.value;
         });
 
         itemInput.addEventListener('keypress', (event) => {
           if (event.keyCode === 13) {
-            const event = new Event("click", {bubbles : true, cancelable : true})
+            const event = new Event("click", {bubbles : true, cancelable : true});
             btnEdit.dispatchEvent(event);
           }
         });
 
         thisItem.insertBefore(itemInput, thisItem.firstChild);
+
+        itemInput.focus();
 
         btnDone.setAttribute('hidden', 'hidden');
 
@@ -157,7 +159,7 @@ taskText.addEventListener('input', () => {
 
 taskText.addEventListener('keypress', (event) => {
   if (event.keyCode === 13) {
-    const event = new Event("click", {bubbles : true, cancelable : true})
+    const event = new Event("click", {bubbles : true, cancelable : true});
     taskAddBtn.dispatchEvent(event);
   }
 });
