@@ -9,6 +9,55 @@
     <title>Document</title>
   </head>
   <body>
+    <header>
+      <div class="navbar navbar-inverse">
+        <div class="logo text-center text-primary">
+          <div class="h4">ToDo App</div>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-offset-3 col-sm-6">
+          <input type="text" id="task-text" class="task-input" placeholder="Write your task here">
+        </div>
+        <div class="col-xs-12 text-center">
+          <button id="task-add" class="task-add-btn">Add tast</button>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="h2 text-center">Task list</div>
+        </div>
+        <div class="col-xs-12 col-sm-offset-3 col-sm-6">
+          <ul id="task-container" class="task-list">
+            <li class="task-item task-item__empty">Empty list :( . Create your first task</li>
+            <li class="task-item" data-id="0">
+              Do somsing important!
+              <div class="task-item_btns">
+                <button class="task-item_btn task-item_btn__done"><span class="glyphicon glyphicon-ok"></span></button>
+                <button class="task-item_btn task-item_btn__edit"><span class="glyphicon glyphicon-pencil"></span></button>
+                <button class="task-item_btn task-item_btn__delete"><span class="glyphicon glyphicon-remove"></span></button>
+              </div>
+            </li>
+            <li class="task-item task-item__done" data-id="1">
+              Done task
+              <div class="task-item_btns">
+                <button class="task-item_btn task-item_btn__done"><span class="glyphicon glyphicon-check"></span></button>
+                <button class="task-item_btn task-item_btn__delete"><span class="glyphicon glyphicon-remove"></span></button>
+              </div>
+            </li>
+            <li class="task-item task-item__edit" data-id="2">
+              <input type="text" class="task-item-input" value="Do somsing important!">
+              <div class="task-item_btns">
+                <button class="task-item_btn task-item_btn__edit"><span class="glyphicon glyphicon-edit"></span></button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <script src="js/app.js"></script>
   </body>
 </html>
