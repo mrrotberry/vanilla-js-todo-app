@@ -37,10 +37,11 @@ function addTask() {
 
     const btnDone = item.querySelector('.task-item_btn__done');
     btnDone.addEventListener('click', function () {
-      this.parentNode.parentNode.classList.toggle('task-item__done');
+      const thisItem = this.parentNode.parentNode;
+      thisItem.classList.toggle('task-item__done');
 
       const btnDoneIcon = this.querySelector('.glyphicon');
-      const btnEdit = item.querySelector('.task-item_btn__edit');
+      const btnEdit = thisItem.querySelector('.task-item_btn__edit');
       if (btnDoneIcon.classList.contains('glyphicon-ok')) {
         btnDoneIcon.classList.remove('glyphicon-ok');
         btnDoneIcon.classList.add('glyphicon-check');
@@ -51,6 +52,49 @@ function addTask() {
         btnDoneIcon.classList.add('glyphicon-ok');
 
         btnEdit.removeAttribute('hidden');
+      }
+    });
+
+    const btnEdit = item.querySelector('.task-item_btn__edit');
+    btnEdit.addEventListener('click', function () {
+      const thisItem = this.parentNode.parentNode;
+
+      thisItem.classList.toggle('task-item__edit');
+
+      const btnDone = thisItem.querySelector('.task-item_btn__done');
+      const btnDelete = thisItem.querySelector('.task-item_btn__delete');
+
+      const btnEditIcon = this.querySelector('.glyphicon');
+      if (btnEditIcon.classList.contains('glyphicon-pencil')) {
+        btnEditIcon.classList.remove('glyphicon-pencil');
+        btnEditIcon.classList.add('glyphicon-edit');
+
+        window.text = thisItem.childNodes[0].nodeValue.trim();
+        thisItem.childNodes[0].nodeValue = '';
+
+        const itemInput = document.createElement('input');
+        itemInput.classList.add('task-item-input');
+        itemInput.value = text;
+
+        itemInput.addEventListener('change', function () {
+          text = itemInput.value;
+        });
+
+        thisItem.insertBefore(itemInput, thisItem.firstChild);
+
+        btnDone.setAttribute('hidden', 'hidden');
+
+        btnDelete.setAttribute('hidden', 'hidden');
+      } else {
+        btnEditIcon.classList.remove('glyphicon-edit');
+        btnEditIcon.classList.add('glyphicon-pencil');
+
+        thisItem.querySelector('.task-item-input').remove();
+
+        thisItem.childNodes[0].nodeValue = window.text;
+
+        btnDone.removeAttribute('hidden');
+        btnDelete.removeAttribute('hidden');
       }
     });
 

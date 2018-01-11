@@ -51,7 +51,7 @@ $danger: #bb3e3e;
     display: inline-block;
     padding: 13px 30px 13px;
     border: solid lighten($primary, 3%);
-    border-width: 0px 0px 3px;
+    border-width: 0 0 3px;
     border-radius: 6px;
     box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
     background-color: lighten($primary, 10%);
@@ -77,6 +77,7 @@ $danger: #bb3e3e;
   }
   &-item{
     position: relative;
+    min-height: 49px;
     margin-bottom: 10px;
     padding: 8px 16px;
     border: 1px solid transparent;
