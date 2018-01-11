@@ -1,4 +1,32 @@
 .task{
+  &-error{
+    margin-bottom: 10px;
+    text-align: center;
+    opacity: 0;
+    transition: 0.2s;
+    &.show{
+      opacity: 1;
+    }
+    &_text{
+      display: inline-block;
+      position: relative;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background-color: #bb3e3e;
+      font-size: 16px;
+      color: #fff;
+      user-select: none;
+      &::after{
+        content: '';
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 10px solid transparent;
+        border-top: 10px solid #bb3e3e;
+      }
+    }
+  }
   &-input{
     width: 100%;
     height: 50px;
@@ -34,6 +62,7 @@
       border-color: #326E99;
     }
     &:focus{
+      outline: none;
       border-color: #326E99;
       background-color: #3F8ABF;
     }
