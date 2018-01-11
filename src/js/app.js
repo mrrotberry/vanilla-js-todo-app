@@ -101,6 +101,10 @@ function addTask() {
     taskContainer.appendChild(item);
 
     taskText.value = '';
+
+    if (taskContainer.querySelector('.task-item__empty')) {
+      taskContainer.querySelector('.task-item__empty').remove();
+    }
   } else {
     taskError.classList.add('show');
   }
