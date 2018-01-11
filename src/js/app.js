@@ -40,12 +40,17 @@ function addTask() {
       this.parentNode.parentNode.classList.toggle('task-item__done');
 
       const btnDoneIcon = this.querySelector('.glyphicon');
+      const btnEdit = item.querySelector('.task-item_btn__edit');
       if (btnDoneIcon.classList.contains('glyphicon-ok')) {
         btnDoneIcon.classList.remove('glyphicon-ok');
         btnDoneIcon.classList.add('glyphicon-check');
+
+        btnEdit.setAttribute('hidden', 'hidden');
       } else {
         btnDoneIcon.classList.remove('glyphicon-check');
         btnDoneIcon.classList.add('glyphicon-ok');
+
+        btnEdit.removeAttribute('hidden');
       }
     });
 
