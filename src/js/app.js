@@ -27,7 +27,7 @@ function checkEmptyList() {
 }
 
 function addTask() {
-  if (taskText.value !== '') {
+  if (taskText.value.trim() !== '') {
     taskError.classList.remove('show');
 
     const item = document.createElement('li');
@@ -133,6 +133,7 @@ function addTask() {
       }
     });
 
+    /* functional delete button */
     const btnDelete = item.querySelector('.task-item_btn__delete');
     btnDelete.addEventListener('click', function () {
       item.remove();
@@ -152,7 +153,7 @@ function addTask() {
 }
 
 taskText.addEventListener('input', () => {
-  if (taskError.classList.contains('show')) {
+  if (taskText.value.trim() !== '') {
     taskError.classList.remove('show');
   }
 });
