@@ -6,6 +6,7 @@ $danger: #bb3e3e;
 @import "icons";
 
 .navbar {
+	margin-bottom: 30px;
 	padding: 10px 0;
 	background-color: #004652;
 	text-align: center;
@@ -99,6 +100,7 @@ $danger: #bb3e3e;
 		border-radius: 3px;
 		line-height: 1.4;
 		font-size: 22px;
+		word-wrap: break-word;
 		transition: 0.4s;
 		&:hover {
 			border-color: lighten($primary, 3%);
@@ -151,8 +153,8 @@ $danger: #bb3e3e;
 		&_btns {
 			position: absolute;
 			top: 50%;
-			right: 10px;
-			transform: translateY(-50%);
+			right: -10px;
+			transform: translateX(100%) translateY(-50%);
 		}
 		&_btn {
 			position: relative;
