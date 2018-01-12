@@ -54,9 +54,9 @@ function renderItem(text) {
   return `
     ${text}
     <div class="task-item_btns">
-      <button class="task-item_btn task-item_btn__done"><span class="glyphicon glyphicon-ok"></span></button>
-      <button class="task-item_btn task-item_btn__edit"><span class="glyphicon glyphicon-pencil"></span></button>
-      <button class="task-item_btn task-item_btn__delete"><span class="glyphicon glyphicon-remove"></span></button>
+      <button class="task-item_btn task-item_btn__done"><span class="icon icon-ok"></span></button>
+      <button class="task-item_btn task-item_btn__edit"><span class="icon icon-pencil"></span></button>
+      <button class="task-item_btn task-item_btn__delete"><span class="icon icon-remove"></span></button>
     </div>
   `;
 }
@@ -73,11 +73,11 @@ function actDone() {
   const thisItem = this.parentNode.parentNode;
   thisItem.classList.toggle('task-item__done');
 
-  const btnDoneIcon = this.querySelector('.glyphicon');
+  const btnDoneIcon = this.querySelector('.icon');
   const btnEdit = thisItem.querySelector('.task-item_btn__edit');
-  if (btnDoneIcon.classList.contains('glyphicon-ok')) {
-    btnDoneIcon.classList.remove('glyphicon-ok');
-    btnDoneIcon.classList.add('glyphicon-check');
+  if (btnDoneIcon.classList.contains('icon-ok')) {
+    btnDoneIcon.classList.remove('icon-ok');
+    btnDoneIcon.classList.add('icon-check');
 
     btnEdit.setAttribute('hidden', 'hidden');
 
@@ -86,8 +86,8 @@ function actDone() {
     taskStorage[thisItem.getAttribute('data-id')].done = "true";
     localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
   } else {
-    btnDoneIcon.classList.remove('glyphicon-check');
-    btnDoneIcon.classList.add('glyphicon-ok');
+    btnDoneIcon.classList.remove('icon-check');
+    btnDoneIcon.classList.add('icon-ok');
 
     btnEdit.removeAttribute('hidden');
 
@@ -137,8 +137,8 @@ function addTask() {
       if (taskContainer.querySelectorAll('.task-item__edit').length >= 1) {
         Array.from(taskContainer.querySelectorAll('.task-item__edit')).map((itemEdit)=> {
           if (itemEdit !== thisItem) {
-            itemEdit.querySelector('.glyphicon').classList.remove('glyphicon-edit');
-            itemEdit.querySelector('.glyphicon').classList.add('glyphicon-pencil');
+            itemEdit.querySelector('.icon').classList.remove('icon-edit');
+            itemEdit.querySelector('.icon').classList.add('icon-pencil');
 
             const editingText = itemEdit.querySelector('.task-item-input').value;
 
@@ -157,12 +157,12 @@ function addTask() {
       const btnDone = thisItem.querySelector('.task-item_btn__done');
       const btnDelete = thisItem.querySelector('.task-item_btn__delete');
 
-      const btnEditIcon = this.querySelector('.glyphicon');
-      if (btnEditIcon.classList.contains('glyphicon-pencil')) {
+      const btnEditIcon = this.querySelector('.icon');
+      if (btnEditIcon.classList.contains('icon-pencil')) {
         thisItem.classList.add('task-item__edit');
 
-        btnEditIcon.classList.remove('glyphicon-pencil');
-        btnEditIcon.classList.add('glyphicon-edit');
+        btnEditIcon.classList.remove('icon-pencil');
+        btnEditIcon.classList.add('icon-edit');
 
         window.text = thisItem.childNodes[0].nodeValue.trim();
         thisItem.childNodes[0].nodeValue = '';
@@ -192,8 +192,8 @@ function addTask() {
       } else {
         thisItem.classList.remove('task-item__edit');
 
-        btnEditIcon.classList.remove('glyphicon-edit');
-        btnEditIcon.classList.add('glyphicon-pencil');
+        btnEditIcon.classList.remove('icon-edit');
+        btnEditIcon.classList.add('icon-pencil');
 
         if (thisItem.querySelector('.task-item-input')){
           thisItem.querySelector('.task-item-input').remove();

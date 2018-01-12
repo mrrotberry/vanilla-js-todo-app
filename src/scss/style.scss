@@ -2,168 +2,189 @@ $accept: #3ebb77;
 $primary: #3e66bb;
 $danger: #bb3e3e;
 
-.task{
-  &-error{
-    margin-bottom: 10px;
-    text-align: center;
-    opacity: 0;
-    transition: 0.2s;
-    &.show{
-      opacity: 1;
-    }
-    &_text{
-      display: inline-block;
-      position: relative;
-      padding: 3px 8px;
-      border-radius: 4px;
-      background-color: $danger;
-      font-size: 16px;
-      color: #fff;
-      user-select: none;
-      &::after{
-        content: '';
-        position: absolute;
-        bottom: -20px;
-        left: 50%;
-        transform: translateX(-50%);
-        border: 10px solid transparent;
-        border-top: 10px solid $danger;
-      }
-    }
-  }
-  &-input{
-    width: 100%;
-    height: 50px;
-    margin: 0 0 20px;
-    padding: 10px 20px;
-    border: 1px solid #C2C2C2;
-    border-radius: 2px;
-    box-shadow: 1px 1px 4px #EBEBEB;
-    font-size: 30px;
-    transition: 0.4s;
-    &:focus{
-      outline: none;
-      border-color: #bbd4e1;
-      box-shadow: 1px 1px 4px lighten($primary, 20%);
-    }
-  }
-  &-add-btn{
-    display: inline-block;
-    padding: 13px 30px 13px;
-    border: solid lighten($primary, 3%);
-    border-width: 0 0 3px;
-    border-radius: 6px;
-    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
-    background-color: lighten($primary, 10%);
-    line-height: 1;
-    font-size: 18px;
-    font-weight: 700;
-    color: #FFFFFF;
-    transition: all 200ms ease-in-out 0s;
-    &:hover,
-    &:active{
-      background-color: lighten($primary, 12%);
-      border-color: lighten($primary, 3%);
-    }
-    &:focus{
-      outline: none;
-      border-color: lighten($primary, 3%);
-      background-color: #3F8ABF;
-    }
-  }
-  &-list{
-    padding: 0;
-    list-style-position: inside;
-  }
-  &-item{
-    position: relative;
-    min-height: 49px;
-    margin-bottom: 10px;
-    padding: 8px 16px;
-    border: 1px solid transparent;
-    border-radius: 3px;
-    font-size: 22px;
-    transition: 0.4s;
-    &:hover{
-      border-color: lighten($primary, 3%);
-    }
-    &:hover &_btn {
-      opacity: 1;
-    }
-    &__empty{
-      display: block;
-      padding: 12px;
-      border-color: #727272;
-      text-align: center;
-      font-size: 16px;
-      pointer-events: none;
-      &:hover{
-        border-color: #727272;
-      }
-    }
-    &__done{
-      border-color: $accept;
-      text-decoration: line-through;
-      &:hover{
-        border-color: $accept;
-      }
-    }
-    &__edit{
-      display: block;
-      padding: 7px 16px;
-      border-color: $primary;
-      &:hover {
-        border-color: $primary;
-      }
-    }
-    &-input{
-      width: calc(100% - 42px);
-      padding: 0 8px;
-      border: 1px solid #C2C2C2;
-      border-radius: 2px;
-      box-shadow: 1px 1px 4px #EBEBEB;
-      transition: 0.4s;
-      &:focus {
-        outline: none;
-        border-color: #bbd4e1;
-        box-shadow: 1px 1px 4px #bbd4e1;
-      }
-    }
-    &_btns{
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-    }
-    &_btn{
-      padding: 5px 7px;
-      border: none;
-      border-radius: 4px;
-      line-height: 1;
-      color: #fff;
-      opacity: 0;
-      transition: 0.4s;
-      &:focus{
-        outline: none;
-      }
-      &__done{
-        background-color: $accept;
-        &:hover{
-          background-color: darken($accept, 10%);
-        }
-      }
-      &__edit{
-        background-color: $primary;
-        &:hover {
-          background-color: darken($primary, 10%);
-        }
-      }
-      &__delete{
-        background-color: $danger;
-        &:hover {
-          background-color: darken($danger, 10%);
-        }
-      }
-    }
-  }
+@import "service";
+@import "icons";
+
+.navbar {
+	padding: 10px 0;
+	background-color: #004652;
+	text-align: center;
+}
+
+.logo {
+	line-height: 1.2;
+	font-size: 18px;
+	color: #00b6ff;
+}
+
+.task {
+	&-error {
+		margin-bottom: 10px;
+		text-align: center;
+		opacity: 0;
+		transition: 0.2s;
+		&.show {
+			opacity: 1;
+		}
+		&_text {
+			display: inline-block;
+			position: relative;
+			padding: 3px 8px;
+			border-radius: 4px;
+			background-color: $danger;
+			font-size: 16px;
+			color: #fff;
+			user-select: none;
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: -20px;
+				left: 50%;
+				transform: translateX(-50%);
+				border: 10px solid transparent;
+				border-top: 10px solid $danger;
+			}
+		}
+	}
+	&-input {
+		width: 100%;
+		height: 50px;
+		margin: 0 0 20px;
+		padding: 10px 20px;
+		border: 1px solid #c2c2c2;
+		border-radius: 2px;
+		box-shadow: 1px 1px 4px #ebebeb;
+		font-size: 30px;
+		transition: 0.4s;
+		&:focus {
+			outline: none;
+			border-color: #bbd4e1;
+			box-shadow: 1px 1px 4px lighten($primary, 20%);
+		}
+	}
+	&-add-btn {
+		display: inline-block;
+		padding: 13px 30px 13px;
+		border: solid lighten($primary, 3%);
+		border-width: 0 0 3px;
+		border-radius: 6px;
+		box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+		background-color: lighten($primary, 10%);
+		line-height: 1;
+		font-size: 18px;
+		font-weight: 700;
+		color: #fff;
+		transition: all 200ms ease-in-out 0s;
+		&:hover,
+		&:active {
+			background-color: lighten($primary, 12%);
+			border-color: lighten($primary, 3%);
+		}
+		&:focus {
+			outline: none;
+			border-color: lighten($primary, 3%);
+			background-color: #3f8abf;
+		}
+	}
+	&-list {
+		padding: 0;
+		list-style-position: inside;
+	}
+	&-item {
+		position: relative;
+		min-height: 49px;
+		margin-bottom: 10px;
+		padding: 8px 16px;
+		border: 1px solid transparent;
+		border-radius: 3px;
+		line-height: 1.4;
+		font-size: 22px;
+		transition: 0.4s;
+		&:hover {
+			border-color: lighten($primary, 3%);
+		}
+		&:hover &_btn {
+			opacity: 1;
+		}
+		&__empty {
+			display: block;
+			padding: 12px;
+			border-color: #727272;
+			text-align: center;
+			font-size: 16px;
+			pointer-events: none;
+			&:hover {
+				border-color: #727272;
+			}
+		}
+		&__done {
+			border-color: $accept;
+			text-decoration: line-through;
+			&:hover {
+				border-color: $accept;
+			}
+		}
+		&__edit {
+			display: block;
+			padding: 7px 16px;
+			border-color: $primary;
+			&:hover {
+				border-color: $primary;
+			}
+		}
+		&-input {
+			width: calc(100% - 42px);
+			padding: 2px 8px 1px;
+			border: 1px solid #c2c2c2;
+			border-radius: 2px;
+			box-shadow: 1px 1px 4px #ebebeb;
+			line-height: 1.4;
+			font-size: 22px;
+			transition: 0.4s;
+			&:focus {
+				outline: none;
+				border-color: #bbd4e1;
+				box-shadow: 1px 1px 4px #bbd4e1;
+			}
+		}
+		&_btns {
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			transform: translateY(-50%);
+		}
+		&_btn {
+			position: relative;
+			top: 1px;
+			padding: 5px 7px;
+			border: none;
+			border-radius: 4px;
+			line-height: 1;
+			color: #fff;
+			opacity: 0;
+			transition: 0.4s;
+			cursor: pointer;
+			&:focus {
+				outline: none;
+			}
+			&__done {
+				background-color: $accept;
+				&:hover {
+					background-color: darken($accept, 10%);
+				}
+			}
+			&__edit {
+				background-color: $primary;
+				&:hover {
+					background-color: darken($primary, 10%);
+				}
+			}
+			&__delete {
+				background-color: $danger;
+				&:hover {
+					background-color: darken($danger, 10%);
+				}
+			}
+		}
+	}
 }
