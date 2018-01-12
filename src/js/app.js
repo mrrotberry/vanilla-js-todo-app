@@ -14,11 +14,11 @@ if (localStorage.getItem('todo')) {
     for (let id in taskStorage) {
       taskIDs.push(id);
     }
-    if (!taskIDs.length === 0) {
+    if (taskIDs.length === 0) {
+      return taskID = 0;
+    } else {
       taskID =  Math.max.apply(null, taskIDs) + 1;
       return taskID;
-    } else {
-     return taskID = 0;
     }
   })();
 
@@ -30,6 +30,9 @@ if (localStorage.getItem('todo')) {
 
     const btnDone = item.querySelector('.task-item_btn__done');
     btnDone.addEventListener('click', actDone);
+
+    const btnEdit = item.querySelector('.task-item_btn__edit');
+    btnEdit.addEventListener('click', actEdit);
 
     const btnDelete = item.querySelector('.task-item_btn__delete');
     btnDelete.addEventListener('click', actDelete);
@@ -98,6 +101,96 @@ function actDone() {
   }
 }
 
+function actEdit() {
+  const thisItem = this.parentNode.parentNode;
+
+  if (taskContainer.querySelectorAll('.task-item__edit').length >= 1) {
+    Array.from(taskContainer.querySelectorAll('.task-item__edit')).map((itemEdit)=> {
+      if (itemEdit !== thisItem) {
+        itemEdit.querySelector('.icon-edit').classList.add('icon-pencil');
+        itemEdit.querySelector('.icon-edit').classList.remove('icon-edit');
+
+        const editingText = itemEdit.querySelector('.task-item-input').value;
+
+        itemEdit.querySelector('.task-item-input').remove();
+
+        itemEdit.childNodes[0].nodeValue = editingText;
+
+        taskStorage[itemEdit.getAttribute('data-id')].text = editingText;
+        localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
+
+        itemEdit.querySelector('.task-item_btn__done').removeAttribute('hidden');
+        itemEdit.querySelector('.task-item_btn__delete').removeAttribute('hidden');
+
+        if (itemEdit.querySelector('.task-item_btn__edit').classList.contains('show')) {
+          itemEdit.querySelector('.task-item_btn__edit').classList.remove('show');
+        }
+
+        itemEdit.classList.remove('task-item__edit');
+      }
+    });
+  }
+
+  const btnDone = thisItem.querySelector('.task-item_btn__done');
+  const btnDelete = thisItem.querySelector('.task-item_btn__delete');
+
+  const btnEditIcon = this.querySelector('.icon');
+  if (btnEditIcon.classList.contains('icon-pencil')) {
+    thisItem.classList.add('task-item__edit');
+
+    btnEditIcon.classList.remove('icon-pencil');
+    btnEditIcon.classList.add('icon-edit');
+
+    this.classList.add('show');
+
+    window.text = thisItem.childNodes[0].nodeValue.trim();
+    thisItem.childNodes[0].nodeValue = '';
+
+    const itemInput = document.createElement('input');
+    itemInput.classList.add('task-item-input');
+    itemInput.value = window.text;
+
+    itemInput.addEventListener('change', function () {
+      window.text = itemInput.value;
+    });
+
+    itemInput.addEventListener('keypress', (event) => {
+      if (event.keyCode === 13) {
+        const event = new Event("click", {bubbles : true, cancelable : true});
+        this.dispatchEvent(event);
+      }
+    });
+
+    thisItem.insertBefore(itemInput, thisItem.firstChild);
+
+    itemInput.focus();
+
+    btnDone.setAttribute('hidden', 'hidden');
+
+    btnDelete.setAttribute('hidden', 'hidden');
+  } else {
+    thisItem.classList.remove('task-item__edit');
+
+    btnEditIcon.classList.remove('icon-edit');
+    btnEditIcon.classList.add('icon-pencil');
+
+    this.classList.remove('show');
+
+
+    if (thisItem.querySelector('.task-item-input')){
+      thisItem.querySelector('.task-item-input').remove();
+    }
+
+    thisItem.childNodes[0].nodeValue = window.text;
+
+    taskStorage[thisItem.getAttribute('data-id')].text = window.text;
+    localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
+
+    btnDone.removeAttribute('hidden');
+    btnDelete.removeAttribute('hidden');
+  }
+}
+
 function actDelete() {
   const thisItem = this.parentNode.parentNode;
   thisItem.remove();
@@ -131,80 +224,7 @@ function addTask() {
 
     /* functional edit button */
     const btnEdit = item.querySelector('.task-item_btn__edit');
-    btnEdit.addEventListener('click', function () {
-      const thisItem = this.parentNode.parentNode;
-
-      if (taskContainer.querySelectorAll('.task-item__edit').length >= 1) {
-        Array.from(taskContainer.querySelectorAll('.task-item__edit')).map((itemEdit)=> {
-          if (itemEdit !== thisItem) {
-            itemEdit.querySelector('.icon').classList.remove('icon-edit');
-            itemEdit.querySelector('.icon').classList.add('icon-pencil');
-
-            const editingText = itemEdit.querySelector('.task-item-input').value;
-
-            itemEdit.querySelector('.task-item-input').remove();
-
-            itemEdit.childNodes[0].nodeValue = editingText;
-
-            itemEdit.querySelector('.task-item_btn__done').removeAttribute('hidden');
-            itemEdit.querySelector('.task-item_btn__delete').removeAttribute('hidden');
-
-            itemEdit.classList.remove('task-item__edit');
-          }
-        });
-      }
-
-      const btnDone = thisItem.querySelector('.task-item_btn__done');
-      const btnDelete = thisItem.querySelector('.task-item_btn__delete');
-
-      const btnEditIcon = this.querySelector('.icon');
-      if (btnEditIcon.classList.contains('icon-pencil')) {
-        thisItem.classList.add('task-item__edit');
-
-        btnEditIcon.classList.remove('icon-pencil');
-        btnEditIcon.classList.add('icon-edit');
-
-        window.text = thisItem.childNodes[0].nodeValue.trim();
-        thisItem.childNodes[0].nodeValue = '';
-
-        const itemInput = document.createElement('input');
-        itemInput.classList.add('task-item-input');
-        itemInput.value = window.text;
-
-        itemInput.addEventListener('change', function () {
-          window.text = itemInput.value;
-        });
-
-        itemInput.addEventListener('keypress', (event) => {
-          if (event.keyCode === 13) {
-            const event = new Event("click", {bubbles : true, cancelable : true});
-            btnEdit.dispatchEvent(event);
-          }
-        });
-
-        thisItem.insertBefore(itemInput, thisItem.firstChild);
-
-        itemInput.focus();
-
-        btnDone.setAttribute('hidden', 'hidden');
-
-        btnDelete.setAttribute('hidden', 'hidden');
-      } else {
-        thisItem.classList.remove('task-item__edit');
-
-        btnEditIcon.classList.remove('icon-edit');
-        btnEditIcon.classList.add('icon-pencil');
-
-        if (thisItem.querySelector('.task-item-input')){
-          thisItem.querySelector('.task-item-input').remove();
-        }
-
-        thisItem.childNodes[0].nodeValue = window.text;
-
-        btnDone.removeAttribute('hidden');
-        btnDelete.removeAttribute('hidden');
-      }
-    });
+    btnEdit.addEventListener('click', actEdit);
 
     /* functional delete button */
     const btnDelete = item.querySelector('.task-item_btn__delete');

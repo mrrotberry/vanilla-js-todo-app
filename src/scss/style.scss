@@ -120,6 +120,7 @@ $danger: #bb3e3e;
 		&__done {
 			border-color: $accept;
 			text-decoration: line-through;
+			color: $accept;
 			&:hover {
 				border-color: $accept;
 			}
