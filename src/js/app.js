@@ -3,6 +3,42 @@ const taskText = document.getElementById('task-text'),
   taskError = document.getElementById('task-error'),
   taskContainer = document.getElementById('task-container');
 
+let taskStorage;
+let taskID;
+
+if (localStorage.getItem('todo')) {
+  taskStorage = JSON.parse(localStorage.getItem('todo'));
+
+  (function () {
+    const taskIDs = [];
+    for (let id in taskStorage) {
+      taskIDs.push(id);
+    }
+    taskID =  Math.max.apply(null, taskIDs) + 1;
+    return taskID;
+  })();
+
+  for (let key in taskStorage) {
+    const item = document.createElement('li');
+    item.classList.add('task-item');
+    item.setAttribute('data-id', '' + key);
+    item.innerHTML = renderItem(taskStorage[key].text);
+
+    const btnDone = item.querySelector('.task-item_btn__done');
+    btnDone.addEventListener('click', actDone);
+
+    if (taskStorage[key].done === 'true') {
+      const doneEvent = new Event("click", {bubbles : true, cancelable : true});
+      btnDone.dispatchEvent(doneEvent);
+    }
+
+    taskContainer.appendChild(item);
+  }
+} else {
+  taskStorage = {};
+  taskID = 0;
+}
+
 const emptyItem = `
   <li class="task-item task-item__empty">Empty list :( . Create your first task</li>
 `;
@@ -26,35 +62,56 @@ function checkEmptyList() {
   }
 }
 
+function actDone() {
+  const thisItem = this.parentNode.parentNode;
+  thisItem.classList.toggle('task-item__done');
+
+  const btnDoneIcon = this.querySelector('.glyphicon');
+  const btnEdit = thisItem.querySelector('.task-item_btn__edit');
+  if (btnDoneIcon.classList.contains('glyphicon-ok')) {
+    btnDoneIcon.classList.remove('glyphicon-ok');
+    btnDoneIcon.classList.add('glyphicon-check');
+
+    btnEdit.setAttribute('hidden', 'hidden');
+
+    thisItem.setAttribute('data-done', 'true');
+
+    taskStorage[thisItem.getAttribute('data-id')].done = "true";
+    localStorage.setItem('todo', JSON.stringify(taskStorage));
+  } else {
+    btnDoneIcon.classList.remove('glyphicon-check');
+    btnDoneIcon.classList.add('glyphicon-ok');
+
+    btnEdit.removeAttribute('hidden');
+
+    thisItem.setAttribute('data-done', 'false');
+
+    taskStorage[thisItem.getAttribute('data-id')].done = "false";
+    localStorage.setItem('todo', JSON.stringify(taskStorage));
+  }
+}
+
 function addTask() {
   if (taskText.value.trim() !== '') {
     taskError.classList.remove('show');
 
     const item = document.createElement('li');
     item.classList.add('task-item');
-    item.setAttribute('data-id', '0');
+    item.setAttribute('data-id', '' + taskID);
+    item.setAttribute('data-done', 'false');
     item.innerHTML = renderItem(taskText.value);
+
+    taskStorage[taskID] = {
+      "text": taskText.value,
+      "done": false
+    };
+    ++taskID;
+
+    localStorage.setItem('todo',JSON.stringify(taskStorage));
 
     /* functional done button */
     const btnDone = item.querySelector('.task-item_btn__done');
-    btnDone.addEventListener('click', function () {
-      const thisItem = this.parentNode.parentNode;
-      thisItem.classList.toggle('task-item__done');
-
-      const btnDoneIcon = this.querySelector('.glyphicon');
-      const btnEdit = thisItem.querySelector('.task-item_btn__edit');
-      if (btnDoneIcon.classList.contains('glyphicon-ok')) {
-        btnDoneIcon.classList.remove('glyphicon-ok');
-        btnDoneIcon.classList.add('glyphicon-check');
-
-        btnEdit.setAttribute('hidden', 'hidden');
-      } else {
-        btnDoneIcon.classList.remove('glyphicon-check');
-        btnDoneIcon.classList.add('glyphicon-ok');
-
-        btnEdit.removeAttribute('hidden');
-      }
-    });
+    btnDone.addEventListener('click', actDone);
 
     /* functional edit button */
     const btnEdit = item.querySelector('.task-item_btn__edit');
@@ -138,6 +195,9 @@ function addTask() {
     btnDelete.addEventListener('click', function () {
       item.remove();
       checkEmptyList();
+
+      const thisItem = this.parentNode.parentNode;
+      delete taskStorage[thisItem.getAttribute('data-id')];
     });
 
     taskContainer.appendChild(item);
