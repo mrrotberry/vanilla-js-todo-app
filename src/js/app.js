@@ -14,8 +14,12 @@ if (localStorage.getItem('todo')) {
     for (let id in taskStorage) {
       taskIDs.push(id);
     }
-    taskID =  Math.max.apply(null, taskIDs) + 1;
-    return taskID;
+    if (!taskIDs.length === 0) {
+      taskID =  Math.max.apply(null, taskIDs) + 1;
+      return taskID;
+    } else {
+     return taskID = 0;
+    }
   })();
 
   for (let key in taskStorage) {
