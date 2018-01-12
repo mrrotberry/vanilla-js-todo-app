@@ -27,6 +27,9 @@ if (localStorage.getItem('todo')) {
     const btnDone = item.querySelector('.task-item_btn__done');
     btnDone.addEventListener('click', actDone);
 
+    const btnDelete = item.querySelector('.task-item_btn__delete');
+    btnDelete.addEventListener('click', actDelete);
+
     if (taskStorage[key].done === 'true') {
       const doneEvent = new Event("click", {bubbles : true, cancelable : true});
       btnDone.dispatchEvent(doneEvent);
@@ -77,7 +80,7 @@ function actDone() {
     thisItem.setAttribute('data-done', 'true');
 
     taskStorage[thisItem.getAttribute('data-id')].done = "true";
-    localStorage.setItem('todo', JSON.stringify(taskStorage));
+    localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
   } else {
     btnDoneIcon.classList.remove('glyphicon-check');
     btnDoneIcon.classList.add('glyphicon-ok');
@@ -87,8 +90,17 @@ function actDone() {
     thisItem.setAttribute('data-done', 'false');
 
     taskStorage[thisItem.getAttribute('data-id')].done = "false";
-    localStorage.setItem('todo', JSON.stringify(taskStorage));
+    localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
   }
+}
+
+function actDelete() {
+  const thisItem = this.parentNode.parentNode;
+  thisItem.remove();
+  checkEmptyList();
+
+  delete taskStorage[thisItem.getAttribute('data-id')];
+  localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
 }
 
 function addTask() {
@@ -107,7 +119,7 @@ function addTask() {
     };
     ++taskID;
 
-    localStorage.setItem('todo',JSON.stringify(taskStorage));
+    localStorage.setItem('todo',JSON.stringify(taskStorage, null, ' '));
 
     /* functional done button */
     const btnDone = item.querySelector('.task-item_btn__done');
@@ -192,13 +204,7 @@ function addTask() {
 
     /* functional delete button */
     const btnDelete = item.querySelector('.task-item_btn__delete');
-    btnDelete.addEventListener('click', function () {
-      item.remove();
-      checkEmptyList();
-
-      const thisItem = this.parentNode.parentNode;
-      delete taskStorage[thisItem.getAttribute('data-id')];
-    });
+    btnDelete.addEventListener('click', actDelete);
 
     taskContainer.appendChild(item);
 
