@@ -5,7 +5,7 @@ $danger: #bb3e3e;
 @import "service";
 @import "icons";
 
-.navbar {
+header {
 	margin-bottom: 62px;
 	padding: 10px 0;
 	background-color: #004652;
@@ -14,6 +14,19 @@ $danger: #bb3e3e;
 
 .logo {
 	line-height: 1.2;
+	font-size: 18px;
+	color: #00b6ff;
+}
+
+footer{
+	margin-top: auto;
+}
+
+.description{
+	padding: 10px 0;
+	background-color: #004652;
+	line-height: 1.2;
+	text-align: center;
 	font-size: 18px;
 	color: #00b6ff;
 }
