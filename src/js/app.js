@@ -120,33 +120,6 @@ function actDone() {
 function actEdit() {
   const thisItem = this.parentNode.parentNode;
 
-  if (taskContainer.querySelectorAll('.task-item__edit').length >= 1) {
-    Array.from(taskContainer.querySelectorAll('.task-item__edit')).map((itemEdit) => {
-      if (itemEdit !== thisItem) {
-        itemEdit.querySelector('.icon-edit').classList.add('icon-pencil');
-        itemEdit.querySelector('.icon-edit').classList.remove('icon-edit');
-
-        const editingText = itemEdit.querySelector('.task-item-input').value;
-
-        itemEdit.querySelector('.task-item-input').remove();
-
-        itemEdit.childNodes[0].nodeValue = editingText;
-
-        taskStorage[itemEdit.getAttribute('data-id')].text = editingText;
-        localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
-
-        itemEdit.querySelector('.task-item_btn__done').removeAttribute('hidden');
-        itemEdit.querySelector('.task-item_btn__delete').removeAttribute('hidden');
-
-        if (itemEdit.querySelector('.task-item_btn__edit').classList.contains('show')) {
-          itemEdit.querySelector('.task-item_btn__edit').classList.remove('show');
-        }
-
-        itemEdit.classList.remove('task-item__edit');
-      }
-    });
-  }
-
   const btnDone = thisItem.querySelector('.task-item_btn__done');
   const btnDelete = thisItem.querySelector('.task-item_btn__delete');
 
@@ -188,7 +161,7 @@ function actEdit() {
     for (let i = 0; i < taskContainer.querySelectorAll('.task-item').length; i++) {
       if (!taskContainer.querySelectorAll('.task-item')[i].classList.contains('task-item__edit')) {
         let notEditingItem = taskContainer.querySelectorAll('.task-item')[i];
-        notEditingItem.querySelector('.task-item_btn__edit').classList.add('hide');
+        notEditingItem.querySelector('.task-item_btn__edit').setAttribute('hidden', '');
       }
     }
   } else {
@@ -224,7 +197,7 @@ function actEdit() {
       for (let i = 0; i < taskContainer.querySelectorAll('.task-item').length; i++) {
         if (!taskContainer.querySelectorAll('.task-item')[i].classList.contains('task-item__edit')) {
           let notEditingItem = taskContainer.querySelectorAll('.task-item')[i];
-          notEditingItem.querySelector('.task-item_btn__edit').classList.remove('hide');
+          notEditingItem.querySelector('.task-item_btn__edit').removeAttribute('hidden');
         }
       }
     } else {
