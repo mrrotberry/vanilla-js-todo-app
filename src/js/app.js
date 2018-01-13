@@ -1,6 +1,5 @@
 const taskText = document.getElementById('task-text'),
   taskAddBtn = document.getElementById('task-add-btn'),
-  taskError = document.getElementById('task-error'),
   taskContainer = document.getElementById('task-container');
 
 let taskStorage;
@@ -17,7 +16,7 @@ if (localStorage.getItem('todo')) {
     if (taskIDs.length === 0) {
       return taskID = 0;
     } else {
-      taskID =  Math.max.apply(null, taskIDs) + 1;
+      taskID = Math.max.apply(null, taskIDs) + 1;
       return taskID;
     }
   })();
@@ -38,7 +37,7 @@ if (localStorage.getItem('todo')) {
     btnDelete.addEventListener('click', actDelete);
 
     if (taskStorage[key].done === 'true') {
-      const doneEvent = new Event("click", {bubbles : true, cancelable : true});
+      const doneEvent = new Event("click", {bubbles: true, cancelable: true});
       btnDone.dispatchEvent(doneEvent);
     }
 
@@ -49,9 +48,26 @@ if (localStorage.getItem('todo')) {
   taskID = 0;
 }
 
+const errorMessage = `
+  <span class="task-error_text">You must write the task text</span>
+`;
+
 const emptyItem = `
   <li class="task-item task-item__empty">Empty list :( . Create your first task</li>
 `;
+
+function renderError(parent, side) {
+  const taskInputWp = parent;
+  const error = document.createElement('div');
+  error.classList.add('task-error');
+  if (side === 'top') {
+    error.classList.add('task-error_top');
+  } else if (side === 'left') {
+    error.classList.add('task-error_left')
+  }
+  error.innerHTML = errorMessage;
+  taskInputWp.appendChild(error);
+}
 
 function renderItem(text) {
   return `
@@ -105,7 +121,7 @@ function actEdit() {
   const thisItem = this.parentNode.parentNode;
 
   if (taskContainer.querySelectorAll('.task-item__edit').length >= 1) {
-    Array.from(taskContainer.querySelectorAll('.task-item__edit')).map((itemEdit)=> {
+    Array.from(taskContainer.querySelectorAll('.task-item__edit')).map((itemEdit) => {
       if (itemEdit !== thisItem) {
         itemEdit.querySelector('.icon-edit').classList.add('icon-pencil');
         itemEdit.querySelector('.icon-edit').classList.remove('icon-edit');
@@ -150,13 +166,13 @@ function actEdit() {
     itemInput.classList.add('task-item-input');
     itemInput.value = window.text;
 
-    itemInput.addEventListener('change', function () {
-      window.text = itemInput.value;
+    itemInput.addEventListener('input', () => {
+      window.text = itemInput.value.trim();
     });
 
     itemInput.addEventListener('keypress', (event) => {
       if (event.keyCode === 13) {
-        const event = new Event("click", {bubbles : true, cancelable : true});
+        const event = new Event("click", {bubbles: true, cancelable: true});
         this.dispatchEvent(event);
       }
     });
@@ -168,26 +184,55 @@ function actEdit() {
     btnDone.setAttribute('hidden', 'hidden');
 
     btnDelete.setAttribute('hidden', 'hidden');
-  } else {
-    thisItem.classList.remove('task-item__edit');
 
-    btnEditIcon.classList.remove('icon-edit');
-    btnEditIcon.classList.add('icon-pencil');
-
-    this.classList.remove('show');
-
-
-    if (thisItem.querySelector('.task-item-input')){
-      thisItem.querySelector('.task-item-input').remove();
+    for (let i = 0; i < taskContainer.querySelectorAll('.task-item').length; i++) {
+      if (!taskContainer.querySelectorAll('.task-item')[i].classList.contains('task-item__edit')) {
+        let notEditingItem = taskContainer.querySelectorAll('.task-item')[i];
+        notEditingItem.querySelector('.task-item_btn__edit').classList.add('hide');
+      }
     }
+  } else {
+    if (window.text !== '') {
+      if (document.querySelector('.task-error_left')) {
+        document.querySelector('.task-error_left').remove();
+      }
 
-    thisItem.childNodes[0].nodeValue = window.text;
+      if (thisItem.querySelector('.task-item-input').classList.contains('error')) {
+        thisItem.querySelector('.task-item-input').classList.remove('error');
+      }
 
-    taskStorage[thisItem.getAttribute('data-id')].text = window.text;
-    localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
+      thisItem.classList.remove('task-item__edit');
 
-    btnDone.removeAttribute('hidden');
-    btnDelete.removeAttribute('hidden');
+      btnEditIcon.classList.remove('icon-edit');
+      btnEditIcon.classList.add('icon-pencil');
+
+      this.classList.remove('show');
+
+
+      if (thisItem.querySelector('.task-item-input')) {
+        thisItem.querySelector('.task-item-input').remove();
+      }
+
+      thisItem.childNodes[0].nodeValue = window.text;
+
+      taskStorage[thisItem.getAttribute('data-id')].text = window.text;
+      localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
+
+      btnDone.removeAttribute('hidden');
+      btnDelete.removeAttribute('hidden');
+
+      for (let i = 0; i < taskContainer.querySelectorAll('.task-item').length; i++) {
+        if (!taskContainer.querySelectorAll('.task-item')[i].classList.contains('task-item__edit')) {
+          let notEditingItem = taskContainer.querySelectorAll('.task-item')[i];
+          notEditingItem.querySelector('.task-item_btn__edit').classList.remove('hide');
+        }
+      }
+    } else {
+      thisItem.querySelector('.task-item-input').classList.add('error');
+      if (!document.querySelector('.task-error_left')) {
+        renderError(thisItem, 'left');
+      }
+    }
   }
 }
 
@@ -202,7 +247,9 @@ function actDelete() {
 
 function addTask() {
   if (taskText.value.trim() !== '') {
-    taskError.classList.remove('show');
+    if (taskText.classList.contains('error')) {
+      taskText.classList.remove('error');
+    }
 
     const item = document.createElement('li');
     item.classList.add('task-item');
@@ -216,7 +263,7 @@ function addTask() {
     };
     ++taskID;
 
-    localStorage.setItem('todo',JSON.stringify(taskStorage, null, ' '));
+    localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
 
     /* functional done button */
     const btnDone = item.querySelector('.task-item_btn__done');
@@ -238,20 +285,38 @@ function addTask() {
       taskContainer.querySelector('.task-item__empty').remove();
     }
   } else {
-    taskError.classList.add('show');
+    if (!document.querySelector('.task-error_top')) {
+      renderError(document.getElementById('task-input-wp'), 'top');
+    }
+    taskText.classList.add('error');
+    taskText.focus();
   }
 }
 
 taskText.addEventListener('input', () => {
+  if (taskText.classList.contains('error')) {
+    taskText.classList.remove('error');
+  }
   if (taskText.value.trim() !== '') {
-    taskError.classList.remove('show');
+    if (document.querySelector('.task-error_top')) {
+      document.querySelector('.task-error_top').remove();
+    }
   }
 });
 
 taskText.addEventListener('keypress', (event) => {
   if (event.keyCode === 13) {
-    const event = new Event("click", {bubbles : true, cancelable : true});
+    const event = new Event("click", {bubbles: true, cancelable: true});
     taskAddBtn.dispatchEvent(event);
+  }
+});
+
+taskText.addEventListener('blur', () => {
+  if (taskText.classList.contains('error')) {
+    taskText.classList.remove('error');
+  }
+  if (document.querySelector('.task-error_top')) {
+    document.querySelector('.task-error_top').remove();
   }
 });
 
