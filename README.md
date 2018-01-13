@@ -1,2 +1,3 @@
 # vanilla-js-todo-app
-Simple Todo App on Vanilla JS and uses Web Storage API (localStorage)
+Simple Todo App on Vanilla JS, uses Web Storage API (localStorage)
+_(Bootstrap and jQuery free)_
