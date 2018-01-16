@@ -132,16 +132,9 @@ function actEdit() {
 
     this.classList.add('show');
 
-    window.text = thisItem.childNodes[0].nodeValue.trim();
-    thisItem.childNodes[0].nodeValue = '';
-
     const itemInput = document.createElement('input');
     itemInput.classList.add('task-item-input');
-    itemInput.value = window.text;
-
-    itemInput.addEventListener('input', () => {
-      window.text = itemInput.value.trim();
-    });
+    itemInput.value = thisItem.childNodes[0].nodeValue.trim();
 
     itemInput.addEventListener('keypress', (event) => {
       if (event.keyCode === 13) {
@@ -150,6 +143,7 @@ function actEdit() {
       }
     });
 
+    thisItem.childNodes[0].nodeValue = '';
     thisItem.insertBefore(itemInput, thisItem.firstChild);
 
     itemInput.focus();
@@ -157,15 +151,8 @@ function actEdit() {
     btnDone.setAttribute('hidden', 'hidden');
 
     btnDelete.setAttribute('hidden', 'hidden');
-
-    for (let i = 0; i < taskContainer.querySelectorAll('.task-item').length; i++) {
-      if (!taskContainer.querySelectorAll('.task-item')[i].classList.contains('task-item__edit')) {
-        let notEditingItem = taskContainer.querySelectorAll('.task-item')[i];
-        notEditingItem.querySelector('.task-item_btn__edit').setAttribute('hidden', '');
-      }
-    }
   } else {
-    if (window.text !== '') {
+    if (thisItem.querySelector('.task-item-input').value.trim() !== '') {
       if (document.querySelector('.task-error_left')) {
         document.querySelector('.task-error_left').remove();
       }
@@ -181,25 +168,19 @@ function actEdit() {
 
       this.classList.remove('show');
 
+      const editText = thisItem.querySelector('.task-item-input').value.trim();
 
       if (thisItem.querySelector('.task-item-input')) {
         thisItem.querySelector('.task-item-input').remove();
       }
 
-      thisItem.childNodes[0].nodeValue = window.text;
+      thisItem.childNodes[0].nodeValue = editText;
 
-      taskStorage[thisItem.getAttribute('data-id')].text = window.text;
+      taskStorage[thisItem.getAttribute('data-id')].text = editText;
       localStorage.setItem('todo', JSON.stringify(taskStorage, null, ' '));
 
       btnDone.removeAttribute('hidden');
       btnDelete.removeAttribute('hidden');
-
-      for (let i = 0; i < taskContainer.querySelectorAll('.task-item').length; i++) {
-        if (!taskContainer.querySelectorAll('.task-item')[i].classList.contains('task-item__edit')) {
-          let notEditingItem = taskContainer.querySelectorAll('.task-item')[i];
-          notEditingItem.querySelector('.task-item_btn__edit').removeAttribute('hidden');
-        }
-      }
     } else {
       thisItem.querySelector('.task-item-input').classList.add('error');
       if (!document.querySelector('.task-error_left')) {
